@@ -1,5 +1,5 @@
 import './App.css';
-import {useState,useEffect} from "react";
+import {useEffect} from "react";
 import {BrowserRouter as Router,Routes,Route} from "react-router-dom";
 import Navbar from './components/Navbar';
 import SignIn from './components/Signin';
@@ -8,6 +8,7 @@ import {RecoilRoot, useSetRecoilState} from 'recoil';
 import { userState } from "./store/atoms/user.js";
 import Blogs from './components/Blogs.jsx';
 import BlogPage from './components/BlogPage.jsx';
+import BlogForm from './components/BlogForm.jsx';
 
 function App() {
   return (
@@ -19,6 +20,7 @@ function App() {
   <Route path="/" element={<SignUp />} />
   <Route path="/blogs" element={<Blogs />} />
   <Route path="/signin" element={<SignIn />} />
+  <Route path="/blogs/upload" element={<BlogForm />} />
   <Route path="/blogs/:id" element={<BlogPage />} />
 </Routes>
 </Router>
@@ -35,8 +37,6 @@ function InitUser() {
                 method:"GET",
                 headers: {
                     'Content-Type': 'application/json',
-                      },
-                headers: {
                     "Authorization": "Bearer " + localStorage.getItem("token")
                 }
             })

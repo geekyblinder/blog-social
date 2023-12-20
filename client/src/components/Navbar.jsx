@@ -11,8 +11,13 @@ function Navbar(){
     if(userName){
         return (
             <div style={{display:'flex', justifyContent:"space-between",backgroundColor:"white",padding:4}}>
-            <div><Typography variant="h6">Social Media App</Typography></div> 
+            <div><Typography variant="h6">Blog it Out</Typography></div> 
              <div style={{display:'flex'}}><Typography>{userName}</Typography>
+             <Button
+             onClick={()=>{
+                navigate('/blogs/upload');
+             }}
+             >Create a Blog!</Button>
              <Button
              onClick={()=>{
                 localStorage.setItem("token", null);
@@ -29,7 +34,7 @@ function Navbar(){
     else{
     return (
         <div style={{display:'flex', justifyContent:"space-between",backgroundColor:"white",padding:4}}>
-       <div><Typography variant="h6">Social Media App</Typography></div> 
+       <div><Typography variant="h6">Blog it Out</Typography></div> 
         <div style={{display:'flex'}}><Button><Link to="/" style={{textDecoration:"none",color:"black"}}>Sign Up</Link></Button>
         <Button
         ><Link to="/signin" style={{textDecoration:"none",color:"black"}} >Sign In</Link></Button>

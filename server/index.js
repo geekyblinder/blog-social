@@ -6,7 +6,6 @@ const bcrypt= require("bcrypt");
 const {z} = require("zod");
 require('dotenv').config();
 
-
 const SECRET = process.env.SECRET_KEY;
 const PASSWORD=process.env.PASSWORD;
 
@@ -37,12 +36,23 @@ app.use(express.json());
 
 //Mongodb Schema
 
-const userSchema = new mongoose.Schema({
-    username: String,
-    password: String
+const blogSchema = new mongoose.Schema({
+    title: String,
+    desc: String,
+    content: String,
+    author:String
   });
 
+
+const userSchema = new mongoose.Schema({
+    username: String,
+    password: String,
+    blogs:[blogSchema]
+  });
+
+
   const User = mongoose.model('details', userSchema);
+  const Blog = mongoose.model('blogdetails', blogSchema);
   const connectUrl=`mongodb+srv://mishrakartikey007:${encodeURIComponent(PASSWORD)}@clusterpk.n4nfhaf.mongodb.net/`;
   mongoose.connect(connectUrl, { useNewUrlParser: true, useUnifiedTopology: true, dbName: "courses" });
 
@@ -77,11 +87,12 @@ app.post('/signup',(req,res)=>{
             const newUser = new User(obj);
             newUser.save();
             const token = jwt.sign({ username}, SECRET, { expiresIn: '1h' });
-            console.log(token);
             res.json({ message: 'Created successfully', token });
         }
     });
 });
+
+
 
 app.post('/login',async (req,res)=>{
     var {username,password}=req.body;
@@ -97,7 +108,60 @@ app.post('/login',async (req,res)=>{
     });
 });
 
+app.post('/blogs',(req,res)=>{
+    Blog.find({})
+    .then((Blogs) => {
+        const allBlogs = Blogs.map((blog) => ({
+            id: blog._id.toString(),
+            title: blog.title,
+            desc:blog.desc,
+            content:blog.content,
+            author:blog.author
+          }));
+      res.send({allBlogs});
+    })
+    .catch((err) => { 
+      res.send(err);
+    });
+})
 
+
+app.post('/upload', (req,res)=>{
+    var {title,description,content,username}=req.body;
+
+    const obj = { title: title,
+        desc: description,
+        content: content,
+        author:username  };
+
+    const newBlog = new Blog(obj);
+    newBlog.save();
+    const updatedUser = User.findOneAndUpdate(
+        { username: username },
+        { $push: { blogs: newBlog } }, 
+        { new: true }
+      ).exec();
+
+      if (updatedUser) {
+        res.send('added!');
+      } else {
+        res.json({error:"an error occured!"})
+      }
+});
+
+app.post('/getblog',(req,res)=>{
+    var blogId=req.body.id;
+    Blog.findById(blogId).then((resp)=>{
+        res.send({
+            author:resp.author,
+            title:resp.title,
+            desc:resp.desc,
+            content:resp.content
+        })
+    }).catch((err)=>{
+        res.status(404).send({error:"not found!"})
+    })
+})
 
 app.listen('5000',()=>{
     console.log('server running at port 5000');
