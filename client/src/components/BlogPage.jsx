@@ -1,10 +1,6 @@
 import React,{useEffect} from 'react';
-import { useParams } from 'react-router-dom';
-import {Button} from "@mui/material"
-import Typography from '@mui/material/Typography';
-import Container from '@mui/material/Container';
-import Box from '@mui/material/Box';
-import Divider from '@mui/material/Divider';
+import { useParams,useNavigate } from 'react-router-dom';
+import {Button,Typography,Container,Box,Divider} from "@mui/material";
 import { userNameState } from "../store/selectors/userName"
 import {useRecoilValue } from "recoil"; 
 import DeleteIcon from '@mui/icons-material/Delete';
@@ -13,6 +9,7 @@ let blogPost;
 
 function BlogPage() {
 const userName = useRecoilValue(userNameState);
+const navigate = useNavigate();
   const { id } = useParams();
   const init = async() => {
     const response= await fetch("http://localhost:5000/getblog",{
@@ -53,7 +50,18 @@ const userName = useRecoilValue(userNameState);
           {(author===userName)?(<><Button
     variant="contained"
     color="error" 
-    startIcon={<DeleteIcon />} 
+    startIcon={<DeleteIcon />}
+    onClick={async()=>{
+      await fetch('http://localhost:5000/deleteblog',{
+        method:"DELETE",
+        headers: {
+                    'Content-Type': 'application/json',
+                },
+        body: JSON.stringify({id:id})
+      });
+
+      navigate('/blogs');
+    }} 
       >
     Delete
   </Button>&nbsp;&nbsp;&nbsp;

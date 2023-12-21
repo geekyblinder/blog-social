@@ -48,9 +48,14 @@ return (
             body: JSON.stringify({ username, password }),}
             )
             let data = await res.json();
+            if(data.token){
             localStorage.setItem("token", data.token);
             setUser({userName: username});
             navigate('/blogs');
+            } else{
+                navigate('/error/1');
+            }
+
 
         }}
             variant="contained" 

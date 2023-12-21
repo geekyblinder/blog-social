@@ -61,7 +61,7 @@ app.get('/userCheck',authenticateJwt,async (req,res)=>{
     const user_ = await User.findOne({ username: req.user.username });
     if (!user_) {
       res.status(403).json({msg: "User doesnt exist"})
-      return
+      return;
     }
     res.json({
         username: user_.username
@@ -148,6 +148,22 @@ app.post('/upload', (req,res)=>{
         res.json({error:"an error occured!"})
       }
 });
+
+app.delete('/deleteblog',(req,res)=>{
+    var blogId=req.body.id;
+    Blog.findOneAndDelete({_id:blogId}).then((deletedDocument) => {
+        if (deletedDocument) {
+         res.send({messages:"Successfully deleted!"});
+        } else {
+          res.sendStatus(404);
+        }
+      })
+      .catch((err) => {
+        console.error(err);
+        res.sendStatus(404);
+      });
+});
+
 
 app.post('/getblog',(req,res)=>{
     var blogId=req.body.id;
