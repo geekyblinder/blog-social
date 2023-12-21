@@ -1,15 +1,33 @@
-import React,{useState} from 'react';
+import React,{useState, useEffect} from 'react';
 import { TextField, Button, Container, Grid } from '@mui/material';
 import { userNameState } from "../store/selectors/userName";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import {useRecoilValue } from "recoil"; 
 
- function BlogForm (){
-  const userName = useRecoilValue(userNameState);
-  const [title, setTitle] = useState('');
-  const [desc, setDesc] = useState('');
-  const [content, setContent] = useState('');
-  const navigate=useNavigate();
+ function EditBlogForm (){
+    const {id}=useParams();
+    const userName = useRecoilValue(userNameState);
+    const [title, setTitle] = useState('');
+    const [desc, setDesc] = useState('');
+    const [content, setContent] = useState('');
+    const navigate=useNavigate();
+
+    const populateEditBlog = async() => {
+        const response= await fetch("http://localhost:5000/getblog",{
+                  method: 'POST',
+                  body: JSON.stringify({id:id}),
+                   headers: {
+                'Content-Type': 'application/json',
+                  }})
+                  let data=await response.json();
+                  setTitle(data.title);
+                  setDesc(data.desc);
+                  setContent(data.content.replace(/<br\s*\/?>/gi,'\r\n'));
+      };
+      useEffect(() => {
+        populateEditBlog();
+      }, []);  
+
   if(userName){
   return (
 
@@ -51,21 +69,19 @@ import {useRecoilValue } from "recoil";
             </Grid>
             <Grid item xs={12}>
               <Button type="submit" variant="contained" color="primary"
-              onClick={()=>{
-                fetch('http://localhost:5000/upload',{
-                method:"POST",
-                headers: {
-                            'Content-Type': 'application/json',
-                        },
-            body: JSON.stringify({title:title,description:desc,content:content.replace(/(?:\r\n|\r|\n)/g, '<br>') ,username:userName })}
-                )
-              alert('Blog Added Succesfully!')
-              navigate('/blogs');
-              }
-             
-              }
+              onClick={
+                 ()=>{
+                fetch("http://localhost:5000/edit",{
+                    method:"POST",
+                    body: JSON.stringify({id:id,title:title,desc:desc,content:content.replace(/(?:\r\n|\r|\n)/g, '<br>')}),
+                    headers:{
+                        'Content-Type': 'application/json',
+                    },
+                });
+                navigate(`/blogs/${id}`);
+              }}
               >
-                Submit
+                Save Changes
               </Button>
             </Grid>
           </Grid>
@@ -79,4 +95,4 @@ import {useRecoilValue } from "recoil";
   }
 };
 
-export default BlogForm;
+export default EditBlogForm;

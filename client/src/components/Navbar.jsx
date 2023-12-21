@@ -11,7 +11,11 @@ function Navbar(){
     if(userName){
         return (
             <div style={{display:'flex', justifyContent:"space-between",backgroundColor:"white",padding:4}}>
-            <div><Typography variant="h6">Blog it Out</Typography></div> 
+            <div><Button 
+            style={{textDecoration:"none"}} 
+            onClick={()=>{
+                navigate('/blogs')
+            }}>Blog it Out</Button></div> 
              <div style={{display:'flex'}}><Typography>{userName}</Typography>
              <Button
              onClick={()=>{

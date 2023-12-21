@@ -1,4 +1,4 @@
-import React,{useEffect} from 'react';
+import React,{useEffect, useState} from 'react';
 import { Link} from 'react-router-dom';
 import {useRecoilValue } from "recoil";
 import {Button, Card,  Grid,  Typography, CardContent,CardActions} from "@mui/material";
@@ -7,6 +7,7 @@ import { userNameState } from "../store/selectors/userName"
 let blogs=[];
 
 function Blogs() {
+  const [refresh,setRefresh]= useState(true);
     const userName = useRecoilValue(userNameState);
     const populateBlogs = async() => {
       const response= await fetch("http://localhost:5000/blogs",{
@@ -16,6 +17,7 @@ function Blogs() {
                 }})
                 let data=await response.json();
                 blogs=data.allBlogs;
+                setRefresh(!refresh);
     };
     useEffect(() => {
       populateBlogs();

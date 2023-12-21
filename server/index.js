@@ -165,6 +165,7 @@ app.delete('/deleteblog',(req,res)=>{
 });
 
 
+
 app.post('/getblog',(req,res)=>{
     var blogId=req.body.id;
     Blog.findById(blogId).then((resp)=>{
@@ -177,7 +178,26 @@ app.post('/getblog',(req,res)=>{
     }).catch((err)=>{
         res.status(404).send({error:"not found!"})
     })
-})
+});
+
+app.post('/edit',(req,res)=>{
+    const {id,title,desc,content}=req.body;
+    const updateData = {
+        title:title,
+        desc:desc,
+        content:content
+      };
+    Blog.findByIdAndUpdate(id,updateData,{new:true}).then((resp)=>{
+        if(resp){
+            res.send({message:"updated!"});
+        } else {
+            res.send({error:"cannot update right now"})
+        }
+    }).catch((err)=>{
+        res.status(404).send({error:"not found!"})
+    });
+});
+
 
 app.listen('5000',()=>{
     console.log('server running at port 5000');

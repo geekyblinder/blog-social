@@ -10,6 +10,7 @@ import Blogs from './components/Blogs.jsx';
 import BlogPage from './components/BlogPage.jsx';
 import BlogForm from './components/BlogForm.jsx';
 import Error from './components/Error.jsx';
+import EditBlogForm from './components/EditBlog.jsx';
 
 function App() {
   return (
@@ -24,6 +25,7 @@ function App() {
   <Route path='/error/:id' element={<Error />} />
   <Route path="/blogs/upload" element={<BlogForm />} />
   <Route path="/blogs/:id" element={<BlogPage />} />
+  <Route path='blogs/edit/:id' element={<EditBlogForm />} />
 </Routes>
 </Router>
 </RecoilRoot>

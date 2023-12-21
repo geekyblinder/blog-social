@@ -1,4 +1,4 @@
-import React,{useEffect} from 'react';
+import React,{useEffect, useState} from 'react';
 import { useParams,useNavigate } from 'react-router-dom';
 import {Button,Typography,Container,Box,Divider} from "@mui/material";
 import { userNameState } from "../store/selectors/userName"
@@ -9,6 +9,7 @@ let blogPost;
 
 function BlogPage() {
 const userName = useRecoilValue(userNameState);
+const [refresh,setRefresh]=useState(true);
 const navigate = useNavigate();
   const { id } = useParams();
   const init = async() => {
@@ -22,6 +23,7 @@ const navigate = useNavigate();
               }})
               let data=await response.json();
               blogPost=data;
+              setRefresh(!refresh);
   };
   useEffect(() => {
     init();
@@ -59,20 +61,24 @@ const navigate = useNavigate();
                 },
         body: JSON.stringify({id:id})
       });
-
       navigate('/blogs');
     }} 
       >
     Delete
   </Button>&nbsp;&nbsp;&nbsp;
-  <Button variant="contained" style={{ backgroundColor: 'yellow', color: 'black' }}>
+  <Button variant="contained" 
+  style={{ backgroundColor: 'yellow', color: 'black' }}
+  onClick={()=>{
+    navigate(`/blogs/edit/${id}`);
+  }}
+  >
     Edit
   </Button></>):(<></>)}
   
         </Typography>
         <Divider />
         <Typography variant="body1" paragraph>
-          {content}
+         <p> {content.replace(/<br\s*\/?>/gi,'\n')}</p>
         </Typography>
       </Box>
     </Container>
