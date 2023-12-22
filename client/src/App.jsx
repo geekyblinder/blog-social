@@ -11,6 +11,7 @@ import BlogPage from './components/BlogPage.jsx';
 import BlogForm from './components/BlogForm.jsx';
 import Error from './components/Error.jsx';
 import EditBlogForm from './components/EditBlog.jsx';
+import AiResponse from './components/aiResponse.jsx';
 
 function App() {
   return (

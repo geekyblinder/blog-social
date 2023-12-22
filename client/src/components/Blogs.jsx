@@ -3,6 +3,7 @@ import { Link} from 'react-router-dom';
 import {useRecoilValue } from "recoil";
 import {Button, Card,  Grid,  Typography, CardContent,CardActions} from "@mui/material";
 import { userNameState } from "../store/selectors/userName"
+import ChatInterface from './ChatInterface';
 
 let blogs=[];
 
@@ -49,6 +50,7 @@ function Blogs() {
   </Card>
   </Grid>
     ))}
+    <ChatInterface />
     </Grid>
   )
     }

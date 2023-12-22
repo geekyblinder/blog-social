@@ -5,9 +5,30 @@ const mongoose = require('mongoose');
 const bcrypt= require("bcrypt");
 const {z} = require("zod");
 require('dotenv').config();
+const {OpenAI}= require('openai');
+
 
 const SECRET = process.env.SECRET_KEY;
 const PASSWORD=process.env.PASSWORD;
+const API_KEY = process.env.API;
+
+const openai = new OpenAI({
+    apiKey: API_KEY,
+  });
+
+async function gptResponse(topic) {
+    const prompt = `
+        tell me 5 ideas for a blog on the topic ${topic}. The response should contain the ideas separated by a asterik. 
+    `;
+  const response = await openai.completions.create({
+    prompt: prompt,
+    model: 'text-davinci-003',
+    max_tokens: 2048,
+	temperature: 1
+  });
+  var ans=response.choices[0].text;
+  return (ans);
+}
 
 const authenticateJwt = (req, res, next) => {
     const authHeader = req.headers.authorization;
@@ -196,6 +217,14 @@ app.post('/edit',(req,res)=>{
     }).catch((err)=>{
         res.status(404).send({error:"not found!"})
     });
+});
+
+app.post('/askai',async (req,res)=>{
+    var topic=req.body.topic;
+    var ans = await gptResponse(topic);
+    res.send({
+        "answer":ans
+        });
 });
 
 
