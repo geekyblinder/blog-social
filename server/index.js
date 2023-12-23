@@ -61,7 +61,8 @@ const blogSchema = new mongoose.Schema({
     title: String,
     desc: String,
     content: String,
-    author:String
+    author:String,
+    imgUrl:String
   });
 
 
@@ -137,7 +138,8 @@ app.post('/blogs',(req,res)=>{
             title: blog.title,
             desc:blog.desc,
             content:blog.content,
-            author:blog.author
+            author:blog.author,
+            imgUrl:blog.imgUrl
           }));
       res.send({allBlogs});
     })
@@ -148,12 +150,14 @@ app.post('/blogs',(req,res)=>{
 
 
 app.post('/upload', (req,res)=>{
-    var {title,description,content,username}=req.body;
+    var {title,description,content,username,imgUrl}=req.body;
 
     const obj = { title: title,
         desc: description,
         content: content,
-        author:username  };
+        author:username,
+        imgUrl:imgUrl
+      };
 
     const newBlog = new Blog(obj);
     newBlog.save();
@@ -194,7 +198,8 @@ app.post('/getblog',(req,res)=>{
             author:resp.author,
             title:resp.title,
             desc:resp.desc,
-            content:resp.content
+            content:resp.content,
+            imgUrl:resp.imgUrl
         })
     }).catch((err)=>{
         res.status(404).send({error:"not found!"})

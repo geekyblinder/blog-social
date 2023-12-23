@@ -8,6 +8,7 @@ import {useRecoilValue } from "recoil";
   const userName = useRecoilValue(userNameState);
   const [title, setTitle] = useState('');
   const [desc, setDesc] = useState('');
+  const [imgUrl, setImgUrl] = useState('');
   const [content, setContent] = useState('');
   const navigate=useNavigate();
   if(userName){
@@ -17,6 +18,16 @@ import {useRecoilValue } from "recoil";
       <form>
         <div>
           <Grid container spacing={3}>
+          <Grid item xs={12}>
+              <TextField
+                fullWidth
+                label="Blog Image Url"
+                variant="outlined"
+                value={imgUrl} 
+                onChange={(e) => setImgUrl(e.target.value)}
+                required
+              />
+            </Grid>
             <Grid item xs={12}>
               <TextField
                 fullWidth
@@ -57,7 +68,7 @@ import {useRecoilValue } from "recoil";
                 headers: {
                             'Content-Type': 'application/json',
                         },
-            body: JSON.stringify({title:title,description:desc,content:content.replace(/(?:\r\n|\r|\n)/g, '<br>') ,username:userName })}
+            body: JSON.stringify({title:title,description:desc,content:content.replace(/(?:\r\n|\r|\n)/g, '<br>'),username:userName,imgUrl:imgUrl })}
                 )
               alert('Blog Added Succesfully!')
               navigate('/blogs');

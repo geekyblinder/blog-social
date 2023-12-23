@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
 import { IconButton, Dialog, DialogContent, Typography,Button } from '@mui/material';
-import ChatIcon from '@mui/icons-material/Chat';
 import AiResponse from './aiResponse';
 
 const ChatInterface = () => {
@@ -8,8 +7,12 @@ const ChatInterface = () => {
 
   const chatIconStyle = {
     position: 'fixed',
-    bottom: '20px',
-    right: '20px',
+    boxShadow: "0px 0px 10px 2px rgba(0, 0, 0, 0.3)",
+    backgroundColor:"black",
+    padding:20,
+    color:"white",
+    bottom: '40px',
+    right: '40px',
     zIndex: '1000',
   };
 
@@ -36,11 +39,11 @@ const ChatInterface = () => {
   return (
     <>
       <IconButton style={chatIconStyle} onClick={toggleChat}>
-        <ChatIcon />
+     <Typography> AI generator </Typography>
       </IconButton>
       <Dialog open={isOpen} onClose={toggleChat} PaperProps={{ style: chatWindowStyle }}>
         <DialogContent>
-        <Button style={closeButtonStyle} onClick={toggleChat}>close</Button>
+        <Button style={closeButtonStyle} onClick={toggleChat}></Button>
         <Typography>Blog Ideas Generator</Typography>
           <AiResponse />
         </DialogContent>

@@ -13,7 +13,7 @@ function Error() {
         error_msg="Unexpected Error Occurred!";
     }
   return (
-    <div>
+    <div style={{marginTop:100} }>
       <Typography>{error_msg}</Typography>
     </div>
   )

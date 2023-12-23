@@ -11,7 +11,8 @@ import BlogPage from './components/BlogPage.jsx';
 import BlogForm from './components/BlogForm.jsx';
 import Error from './components/Error.jsx';
 import EditBlogForm from './components/EditBlog.jsx';
-import AiResponse from './components/aiResponse.jsx';
+import UserProfile from './components/UserProfile.jsx';
+import Footer from './components/Footer.jsx';
 
 function App() {
   return (
@@ -24,10 +25,12 @@ function App() {
   <Route path="/blogs" element={<Blogs />} />
   <Route path="/signin" element={<SignIn />} />
   <Route path='/error/:id' element={<Error />} />
+  <Route path='/profile' element={<UserProfile />} />
   <Route path="/blogs/upload" element={<BlogForm />} />
   <Route path="/blogs/:id" element={<BlogPage />} />
   <Route path='blogs/edit/:id' element={<EditBlogForm />} />
 </Routes>
+<Footer />
 </Router>
 </RecoilRoot>
     

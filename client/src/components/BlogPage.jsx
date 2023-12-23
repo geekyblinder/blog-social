@@ -41,13 +41,13 @@ const navigate = useNavigate();
 
 
   return (
-    <Container maxWidth="md">
+    <Container maxWidth="md" style={{textAlign:'justify'}}>
       <Box my={4}>
         <Typography variant="h4" component="h1" gutterBottom>
           {title}
         </Typography>
         <Typography variant="subtitle1" color="textSecondary" gutterBottom>
-          {desc} -by {author}
+          {desc} -by <b>{author}</b>
           <br></br>
           {(author===userName)?(<><Button
     variant="contained"
@@ -77,8 +77,9 @@ const navigate = useNavigate();
   
         </Typography>
         <Divider />
+        <br></br>
         <Typography variant="body1" paragraph>
-         <p> {content.replace(/<br\s*\/?>/gi,'\n')}</p>
+         {content.replace(/<br\s*\/?>/gi,'\r\n')}
         </Typography>
       </Box>
     </Container>

@@ -19,8 +19,7 @@ function AiResponse() {
           margin="normal"
         />
         <Button 
-        variant="contained" 
-        color="primary" 
+        style={{color:"navy"}}
         onClick={async ()=>{
             setLoading(true);
             const response = await fetch("http://localhost:5000/askai",{
@@ -32,7 +31,6 @@ function AiResponse() {
             });
             setLoading(false);
             var data= await response.json();
-
             setAnswer(data.answer);
         }}>
           Magic!

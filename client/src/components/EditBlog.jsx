@@ -10,6 +10,7 @@ import {useRecoilValue } from "recoil";
     const [title, setTitle] = useState('');
     const [desc, setDesc] = useState('');
     const [content, setContent] = useState('');
+    const [imgUrl, setImgUrl] = useState('');
     const navigate=useNavigate();
 
     const populateEditBlog = async() => {
@@ -23,6 +24,7 @@ import {useRecoilValue } from "recoil";
                   setTitle(data.title);
                   setDesc(data.desc);
                   setContent(data.content.replace(/<br\s*\/?>/gi,'\r\n'));
+                  setImgUrl(data.imgUrl);
       };
       useEffect(() => {
         populateEditBlog();
@@ -35,6 +37,16 @@ import {useRecoilValue } from "recoil";
       <form>
         <div>
           <Grid container spacing={3}>
+          <Grid item xs={12}>
+              <TextField
+                fullWidth
+                label="Blog Image Url"
+                variant="outlined"
+                value={imgUrl} 
+                onChange={(e) => setImgUrl(e.target.value)}
+                required
+              />
+            </Grid>
             <Grid item xs={12}>
               <TextField
                 fullWidth
