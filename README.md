@@ -36,7 +36,13 @@ To set up this project locally, follow these steps:
 After installing dependencies in both the `client` and `server` folders,
 
 ### Client
- navigate to the client folder and run "npm start".
+ navigate to the client folder and run 
+     ```
+    npm start
+    ```
 
 ### Server
-navigate to the server folder and run node index.js.
+navigate to the server folder and run 
+    ```
+   node index.js
+    ```
